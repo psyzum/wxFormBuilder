@@ -188,7 +188,9 @@ function wx_config_Private(wxRoot, wxDebug, wxHost, wxVersion, wxStatic, wxUnico
         end
 
         local wxLibPath = path.join(wxRoot, "lib")
-        wxLibPath = path.join(wxLibPath, wxCompiler .. wxCompilerVersion .. "_" .. iif(wxStatic == 'yes', 'lib', 'dll'))
+        -- FIXME: This works only for the MSVC compiler, the default wxWidgets Makefiles don't create
+        --        architecture decorated paths, the wxPack script uses a different decoration
+        wxLibPath = path.join(wxLibPath, wxCompiler .. wxCompilerVersion .. iif(wxArchitecture == "x86_64", "_x64", "") .. "_" .. iif(wxStatic == 'yes', 'lib', 'dll'))
         -- common defines
         defines{ "__WXMSW__" }
 
